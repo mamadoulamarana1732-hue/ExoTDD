@@ -1,0 +1,28 @@
+{
+  "name": "test-tdd",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/mamadoulamarana1732-hue/ExoTDD#readme",
+  "bugs": {
+    "url": "https://github.com/mamadoulamarana1732-hue/ExoTDD/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mamadoulamarana1732-hue/ExoTDD.git"
+  },
+  "license": "ISC",
+  "author": "",
+    "type": "module",
+    
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.2"
+  }
+}
