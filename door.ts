@@ -1,26 +1,36 @@
 export class door{
-   
    public close: boolean = true;
    public open: boolean = true;
+   public key : boolean = true;
+   public keyName : string | undefined;
+
 
     public isClose(): boolean {
         return this.close;
     }
+
     public isopen(): boolean {
         return this.open;
     }
-}
-export class player{
-    player : string;
-    constructor(player:string){
-        this.player=player;
+
+    constructor(open:boolean, key:boolean, keyName?: string){
+        this.open=true;
+        this.keyName= keyName;
+    }
+
+    openDoor(door: door, player: Player) {
+        if(door.keyName != player.key){
+            this.open = false;
+            return
+        }
+        return 
     }
 
 }
-export class key{
-    ketcolor : string;
+export class Player {
+    public key : string;
 
-    constructor(color:string){
-        this.ketcolor=color;
+    constructor(key:string){
+        this.key=key;
     }
 }
