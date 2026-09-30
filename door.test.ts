@@ -62,4 +62,16 @@ describe("Room", () => {
 
         expect(room.items).not.toContain("sword");
     });
+    it("Un objet ramassé par un joueur ne peut pas être ramassé par un autre", () => {
+        const gabi = new Player("Gabi");
+        const tom = new Player("Tom");
+        const room = new Room();
+        room.addItem("sword");
+
+        gabi.pickUp(room, "sword");
+
+        expect(() => tom.pickUp(room, "sword")).toThrow();
+        expect(tom.inventory).not.toContain("sword");
+        expect(gabi.inventory).not.toContain("sword");
+    });
 });

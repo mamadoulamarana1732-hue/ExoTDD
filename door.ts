@@ -81,16 +81,26 @@ export class Player {
     }
 
 
-    pickUp(room: IRoom, name: string): void {
-        const index = room.items.findIndex(
-            item => item != name);
+    // pickUp(room: IRoom, name: string): void {
+    //     const index = room.items.findIndex(
+    //         item => item != name);
 
-        this.addItem(name, "");
+    //     this.addItem(name, "");
+    //     if (index === -1) {
+    //         throw new Error(`'${name}' n'existe pas'.`);
+    //     }
+    //     const item = room.items.splice(index, 1);
+    //     room.items = item;
+    // }
+    pickUp(room: IRoom, name: string): void {
+        const index = room.items.findIndex(item => item === name);
+
         if (index === -1) {
-            throw new Error(`'${name}' n'existe pas'.`);
+            throw new Error(`L'objet "${name}" n'est pas dans la salle`);
         }
-        const item = room.items.splice(index, 1);
-        room.items = item;
+
+        room.items.splice(index, 1);
+        this.addItem(name, "");
     }
 }
 
