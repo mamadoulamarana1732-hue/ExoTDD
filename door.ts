@@ -1,4 +1,4 @@
-export class door {
+export class Door {
     public close: boolean = true;
     public open: boolean = true;
     public key: boolean = true;
@@ -18,13 +18,22 @@ export class door {
         this.keyName = keyName;
     }
 
+
     openDoor(player: Player) {
-        if (this.keyName != player.key) {
+        const key = player.inventory.find(
+            item => item.name === "clee" && item.color === this.keyName
+        );
+
+        if (key) {
+            this.open = true;
+            player.RemoveItem(key.name);
+        } else {
             this.open = false;
-            return
         }
-        return
     }
+
+
+
 
 }
 export class Item {
@@ -37,7 +46,7 @@ export class Item {
 }
 export class Player {
 
-    inventory: Item[] = [];
+    inventory: { name: string, color: string }[] = [];
 
 
     public key: string;
@@ -48,7 +57,7 @@ export class Player {
 
 
     addItem(name: string, color: string): void {
-        this.inventory.push(new Item(name, color));
+        this.inventory.push({ name, color });
     }
 
     RemoveItem(name: string) {
@@ -57,5 +66,6 @@ export class Player {
             this.inventory.splice(index, 1);
         }
     }
+
 
 }
