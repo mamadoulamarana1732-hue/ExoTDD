@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Door, Player } from "./door.js";
+import { Door, Player, Room } from "./door.js";
 
 describe("Door", () => {
     it("la port est fermée ne doit pas etre franchie", () => {
@@ -39,8 +39,27 @@ describe("Door", () => {
         expect(player.inventory.length).toBe(1);
         expect(player.inventory).toStrictEqual([{ name: "clee", color: "bleu" }]);
     });
-    it("Lorsqu'un joueur ramasse un objet, celui-ci est ajouté à son inventaire et retiré de la salle", () => {
-        const player = new Player("Gabi");
 
-    })
+
+});
+
+describe("Room", () => {
+    it("Lorsqu'un joueur ramasse un objet, celui-ci est ajouté à son inventaire", () => {
+        const player = new Player("Gabi");
+        const room = new Room();
+        room.addItem("sword");
+        room.addItem("torch");
+        player.pickUp(room, room.items[0] as string);
+
+        expect(player.inventory).toStrictEqual([{ name: "sword", color: '' }]);
+    });
+    it("Lorsqu'un joueur ramasse un objet, celui-ci est retiré de la salle", () => {
+        const player = new Player("Gabi");
+        const room = new Room();
+        room.addItem("sword");
+        room.addItem("torch");
+        player.pickUp(room, room.items[0] as string);
+
+        expect(room.items).not.toContain("sword");
+    });
 });

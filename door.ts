@@ -32,9 +32,6 @@ export class Door {
         }
     }
 
-
-
-
 }
 export class Item {
     name: string;
@@ -44,6 +41,21 @@ export class Item {
         this.color = color;
     }
 }
+
+interface IRoom { items: string[] }
+
+export class Room {
+    items: string[] = [];
+
+    constructor() {
+        this.items = [];
+    }
+
+    addItem(item: string) {
+        this.items.push(item);
+    }
+}
+
 export class Player {
 
     inventory: { name: string, color: string }[] = [];
@@ -60,6 +72,7 @@ export class Player {
         this.inventory.push({ name, color });
     }
 
+
     RemoveItem(name: string) {
         const index = this.inventory.findIndex(item => item.name === name);
         if (index !== -1) {
@@ -68,4 +81,16 @@ export class Player {
     }
 
 
+    pickUp(room: IRoom, name: string): void {
+        const index = room.items.findIndex(
+            item => item != name);
+
+        this.addItem(name, "");
+        if (index === -1) {
+            throw new Error(`'${name}' n'existe pas'.`);
+        }
+        const item = room.items.splice(index, 1);
+        room.items = item;
+    }
 }
+
