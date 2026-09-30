@@ -102,5 +102,13 @@ export class Player {
         room.items.splice(index, 1);
         this.addItem(name, "");
     }
+
+    use(name: string): void {
+        const i = this.inventory.some(item => item.name === name);
+
+        if (!i) {
+            throw new Error(`Vous ne possédez pas "${name}"`);
+        }
+    }
 }
 

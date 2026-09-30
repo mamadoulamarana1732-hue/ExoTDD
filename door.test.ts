@@ -74,4 +74,14 @@ describe("Room", () => {
         expect(tom.inventory).not.toContain("sword");
         expect(gabi.inventory).not.toContain("sword");
     });
+    it("Un joueur ne peut pas utiliser l'objet d'un autre joueur", () => {
+        const gabi = new Player("Gabi");
+        const tom = new Player("Tom");
+        const room = new Room();
+        room.addItem("sword");
+        gabi.pickUp(room, "sword");
+
+        expect(() => tom.use("sword")).toThrow();
+        expect(gabi.inventory.map(i => i.name)).toContain("sword");
+    });
 });
