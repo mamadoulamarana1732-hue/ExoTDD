@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Door, Player, Room } from "./door.js";
+import { Door, Player, Riddle, Room } from "./door.js";
 
 describe("Door", () => {
     it("la port est fermée ne doit pas etre franchie", () => {
@@ -83,5 +83,25 @@ describe("Room", () => {
 
         expect(() => tom.use("sword")).toThrow();
         expect(gabi.inventory.map(i => i.name)).toContain("sword");
+    });
+
+    describe("Riddle", () => {
+        it("la bonne réponse résout l'énigme", () => {
+            const riddle = new Riddle("Qu'est-ce qui répète tout ce qu'on lui dit ?", "écho");
+
+            const result = riddle.solve("écho");
+
+            expect(result).toBe(true);
+            expect(riddle.isSolved()).toBe(true);
+        });
+
+        it("une mauvaise réponse ne résout pas l'énigme", () => {
+            const riddle = new Riddle("Qu'est-ce qui répète tout ce qu'on lui dit ?", "écho");
+
+            const result = riddle.solve("ombre");
+
+            expect(result).toBe(false);
+            expect(riddle.isSolved()).toBe(false);
+        });
     });
 });

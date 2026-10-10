@@ -1,9 +1,28 @@
+export class Riddle {
+    private solved = false;
+
+    constructor(
+        public readonly question: string,
+        private readonly answer: string,
+    ) { }
+
+    solve(reponse: string): boolean {
+        const correct = reponse === this.answer;
+        if (correct) this.solved = true;
+        return correct;
+    }
+
+    isSolved(): boolean {
+        return this.solved;
+    }
+}
+
 export class Door {
     public close: boolean = true;
     public open: boolean = true;
     public key: boolean = true;
     public keyName: string | undefined;
-
+    private riddle?: Riddle;
 
     public isClose(): boolean {
         return this.close;
@@ -18,7 +37,6 @@ export class Door {
         this.keyName = keyName;
     }
 
-
     openDoor(player: Player) {
         const key = player.inventory.find(
             item => item.name === "clee" && item.color === this.keyName
@@ -32,7 +50,17 @@ export class Door {
         }
     }
 
+    protectWith(riddle: Riddle): void {
+        this.riddle = riddle;
+    }
+
+    cross(): void {
+        if (this.riddle && !this.riddle.isSolved()) {
+            throw new Error("Énigme non résolue");
+        }
+    }
 }
+
 export class Item {
     name: string;
     color: string;
@@ -57,9 +85,7 @@ export class Room {
 }
 
 export class Player {
-
     inventory: { name: string, color: string }[] = [];
-
 
     public key: string;
 
@@ -67,11 +93,9 @@ export class Player {
         this.key = key;
     }
 
-
     addItem(name: string, color: string): void {
         this.inventory.push({ name, color });
     }
-
 
     RemoveItem(name: string) {
         const index = this.inventory.findIndex(item => item.name === name);
@@ -80,18 +104,6 @@ export class Player {
         }
     }
 
-
-    // pickUp(room: IRoom, name: string): void {
-    //     const index = room.items.findIndex(
-    //         item => item != name);
-
-    //     this.addItem(name, "");
-    //     if (index === -1) {
-    //         throw new Error(`'${name}' n'existe pas'.`);
-    //     }
-    //     const item = room.items.splice(index, 1);
-    //     room.items = item;
-    // }
     pickUp(room: IRoom, name: string): void {
         const index = room.items.findIndex(item => item === name);
 
@@ -111,4 +123,3 @@ export class Player {
         }
     }
 }
-
