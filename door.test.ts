@@ -103,5 +103,36 @@ describe("Room", () => {
             expect(result).toBe(false);
             expect(riddle.isSolved()).toBe(false);
         });
+
+
+        describe("Door protégée par une énigme", () => {
+            it("on ne peut pas franchir une porte dont l'énigme n'est pas résolue", () => {
+                const door = new Door(true, false);
+                door.protectWith(new Riddle("QUESTION", "écho"));
+
+                expect(() => door.cross()).toThrow();
+            });
+
+            it("on ne peut pas franchir une porte après 3 mauvaises réponses", () => {
+                const door = new Door(true, false);
+                const riddle = new Riddle("QUESTION", "écho");
+                door.protectWith(riddle);
+
+                riddle.solve("ombre");
+                riddle.solve("vent");
+                riddle.solve("feu");
+
+                expect(() => door.cross()).toThrow();
+            });
+
+            it("on peut franchir une porte dont l'énigme est résolue", () => {
+                const door = new Door(true, false);
+                const riddle = new Riddle("QUESTION", "écho");
+                door.protectWith(riddle);
+
+                riddle.solve("écho");
+                expect(() => door.cross()).not.toThrow();
+            });
+        });
     });
 });

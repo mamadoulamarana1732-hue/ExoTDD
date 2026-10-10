@@ -1,5 +1,7 @@
 export class Riddle {
     private solved = false;
+    private failedAttempts = 0;
+    private consequenceTriggered = false;
 
     constructor(
         public readonly question: string,
@@ -7,13 +9,32 @@ export class Riddle {
     ) { }
 
     solve(reponse: string): boolean {
+        if (this.solved) {
+            throw new Error("Énigme déjà résolue");
+        }
+
         const correct = reponse === this.answer;
-        if (correct) this.solved = true;
+        if (correct) {
+            this.solved = true;
+        } else {
+            this.failedAttempts++;
+            if (this.failedAttempts === 3) {
+                this.consequenceTriggered = true;
+            }
+        }
         return correct;
     }
 
     isSolved(): boolean {
         return this.solved;
+    }
+
+    getFailedAttempts(): number {
+        return this.failedAttempts;
+    }
+
+    isConsequenceTriggered(): boolean {
+        return this.consequenceTriggered;
     }
 }
 
