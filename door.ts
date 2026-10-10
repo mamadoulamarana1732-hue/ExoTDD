@@ -38,12 +38,29 @@ export class Riddle {
     }
 }
 
+export class Alarm {
+    private active = false;
+
+    activate(): void {
+        this.active = true;
+    }
+
+    deactivate(): void {
+        this.active = false;
+    }
+
+    isActive(): boolean {
+        return this.active;
+    }
+}
+
 export class Door {
     public close: boolean = true;
     public open: boolean = true;
     public key: boolean = true;
     public keyName: string | undefined;
     private riddle?: Riddle;
+    private alarm?: Alarm;
 
     public isClose(): boolean {
         return this.close;
@@ -75,9 +92,16 @@ export class Door {
         this.riddle = riddle;
     }
 
+    linkToAlarm(alarm: Alarm): void {
+        this.alarm = alarm;
+    }
+
     cross(): void {
         if (this.riddle && !this.riddle.isSolved()) {
             throw new Error("Énigme non résolue");
+        }
+        if (this.alarm && this.alarm.isActive()) {
+            throw new Error("Alarme active");
         }
     }
 }

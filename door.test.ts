@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Door, Player, Riddle, Room } from "./door.js";
+import { Alarm, Door, Player, Riddle, Room } from "./door.js";
 
 describe("Door", () => {
     it("la port est fermée ne doit pas etre franchie", () => {
@@ -133,6 +133,31 @@ describe("Room", () => {
                 riddle.solve("écho");
                 expect(() => door.cross()).not.toThrow();
             });
+        });
+    });
+
+    describe("Alarm", () => {
+        it("l'alarme est inactive à sa création", () => {
+            const alarm = new Alarm();
+
+            expect(alarm.isActive()).toBe(false);
+        });
+
+        it("on peut activer l'alarme", () => {
+            const alarm = new Alarm();
+
+            alarm.activate();
+
+            expect(alarm.isActive()).toBe(true);
+        });
+
+        it("une fois activée, l'alarme reste active si on l'active de nouveau", () => {
+            const alarm = new Alarm();
+
+            alarm.activate();
+            alarm.activate();
+
+            expect(alarm.isActive()).toBe(true);
         });
     });
 });
