@@ -160,4 +160,61 @@ describe("Room", () => {
             expect(alarm.isActive()).toBe(true);
         });
     });
+
+
+    const CODE = "1234";
+
+    function createActiveAlarm(): Alarm {
+        const alarm = new Alarm(CODE);
+        alarm.activate();
+        return alarm;
+    }
+
+    describe("Alarm - activation", () => {
+        it("l'alarme est inactive à sa création", () => {
+            const alarm = new Alarm(CODE);
+
+            expect(alarm.isActive()).toBe(false);
+        });
+
+        it("on peut activer l'alarme", () => {
+            const alarm = new Alarm(CODE);
+
+            alarm.activate();
+
+            expect(alarm.isActive()).toBe(true);
+        });
+
+        it("une fois activée, l'alarme reste active si on l'active de nouveau", () => {
+            const alarm = new Alarm(CODE);
+
+            alarm.activate();
+            alarm.activate();
+
+            expect(alarm.isActive()).toBe(true);
+        });
+    });
+
+    describe("Alarm - désactivation avec un alarm-code", () => {
+        it("le bon code désactive l'alarme", () => {
+            const alarm = createActiveAlarm();
+            const player = new Player("Gabi");
+            player.addItem("alarm-code", CODE);
+
+            alarm.deactivate(player);
+
+            expect(alarm.isActive()).toBe(false);
+        });
+
+        it("l'alarm-code disparaît de l'inventaire après utilisation", () => {
+            const alarm = createActiveAlarm();
+            const player = new Player("Gabi");
+            player.addItem("alarm-code", CODE);
+
+            alarm.deactivate(player);
+
+            expect(player.inventory).toStrictEqual([]);
+        });
+    });
+
 });

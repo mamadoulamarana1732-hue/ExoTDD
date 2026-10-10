@@ -41,12 +41,25 @@ export class Riddle {
 export class Alarm {
     private active = false;
 
+    constructor(private readonly code: string) { }
+
     activate(): void {
         this.active = true;
     }
 
-    deactivate(): void {
-        this.active = false;
+    deactivate(player: Player): void {
+        if (!this.active) {
+            return;
+        }
+
+        const alarmCode = player.inventory.find(
+            item => item.name === "alarm-code" && item.color === this.code
+        );
+
+        if (alarmCode) {
+            this.active = false;
+            player.RemoveItem(alarmCode.name, alarmCode.color);
+        }
     }
 
     isActive(): boolean {
@@ -142,8 +155,10 @@ export class Player {
         this.inventory.push({ name, color });
     }
 
-    RemoveItem(name: string) {
-        const index = this.inventory.findIndex(item => item.name === name);
+    RemoveItem(name: string, color?: string) {
+        const index = this.inventory.findIndex(
+            item => item.name === name && (color === undefined || item.color === color)
+        );
         if (index !== -1) {
             this.inventory.splice(index, 1);
         }
