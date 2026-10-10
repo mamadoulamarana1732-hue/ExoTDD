@@ -84,7 +84,7 @@ export class Door {
     }
 
     constructor(open: boolean, key: boolean, keyName?: string) {
-        this.open = true;
+        this.open = open;
         this.keyName = keyName;
     }
 
@@ -115,6 +115,9 @@ export class Door {
         }
         if (this.alarm && this.alarm.isActive()) {
             throw new Error("Alarme active");
+        }
+        if (!this.open) {
+            throw new Error("Porte fermée");
         }
     }
 }
