@@ -87,18 +87,18 @@ describe("Room", () => {
 
     describe("Riddle", () => {
         it("la bonne réponse résout l'énigme", () => {
-            const riddle = new Riddle("Qu'est-ce qui répète tout ce qu'on lui dit ?", "écho");
+            const riddle = new Riddle("Quelque soit la durée d'un bois dans un marigot, il sera jamais ?", "un poisson");
 
-            const result = riddle.solve("écho");
+            const result = riddle.solve("un poisson");
 
             expect(result).toBe(true);
             expect(riddle.isSolved()).toBe(true);
         });
 
         it("une mauvaise réponse ne résout pas l'énigme", () => {
-            const riddle = new Riddle("Qu'est-ce qui répète tout ce qu'on lui dit ?", "écho");
+            const riddle = new Riddle("Quelque soit la durée d'un bois dans un marigot, il sera jamais ?", "un poisson");
 
-            const result = riddle.solve("ombre");
+            const result = riddle.solve("un poisson");
 
             expect(result).toBe(false);
             expect(riddle.isSolved()).toBe(false);
